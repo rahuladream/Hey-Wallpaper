@@ -18,21 +18,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-Rating_CHOICES = (
-    (1, 'Poor'),
-    (2, 'Average'),
-    (3, 'Good'),
-    (4, 'Very Good'),
-    (5, 'Excellent')
-)
-
-class Rating(models.Model):
-    post_id = models.ForeignKey(Wallpaper, on_delete=models.CASCADE)
-    ip = models.GenericIPAddressField()
-    rate = models.IntegerField(choices=Rating_CHOICES, default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
 
 class Tag(models.Model):
     name = models.CharField(max_length=32, db_index=True)
@@ -49,10 +34,10 @@ class Wallpaper(models.Model):
     image = models.ImageField(upload_to='wallpaper')
     thumbnail = models.ImageField(upload_to='thumbs', editable=False)
     tags = models.ManyToManyField(Tag)
-    total_rate = models.ForeignKey(Rating, on_delete=models.CASCADE)
-    rate_avg = models.DecimalField()
+    rate_avg = models.DecimalField(max_digits=5, decimal_places=2)
     total_views = models.IntegerField()
     total_download = models.IntegerField()
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -97,3 +82,20 @@ class Wallpaper(models.Model):
         temp_thumb.close()
 
         return True
+
+Rating_CHOICES = (
+    (1, 'Poor'),
+    (2, 'Average'),
+    (3, 'Good'),
+    (4, 'Very Good'),
+    (5, 'Excellent')
+)
+class Rating(models.Model):
+    post_id = models.ForeignKey(Wallpaper, on_delete=models.CASCADE)
+    ip = models.GenericIPAddressField()
+    rate = models.IntegerField(choices=Rating_CHOICES, default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.post_id
