@@ -50,10 +50,12 @@ class Wallpaper(models.Model):
     thumbnail = models.ImageField(upload_to='thumbs', editable=False)
     tags = models.ManyToManyField(Tag)
     total_rate = models.ForeignKey(Rating, on_delete=models.CASCADE)
-
-    
+    rate_avg = models.DecimalField()
+    total_views = models.IntegerField()
+    total_download = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
     def save(self, *args, **kwargs):
         """
