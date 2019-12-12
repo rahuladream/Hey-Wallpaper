@@ -3,7 +3,7 @@ from PIL import Image
 from io import BytesIO
 import os
 from django.core.files.base import ContentFile
-THUMB_SIZE = (36, 36)
+THUMB_SIZE = (70, 70)
 # Create your models here.
 
 class Category(models.Model):

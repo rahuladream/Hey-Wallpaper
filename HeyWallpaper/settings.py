@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     
     # Custom apps adde from app
     'app.wallpaper'
@@ -84,6 +85,13 @@ DATABASES = {
     }
 }
 
+# SampleToken Token e151c5924e198c0644e1e0d47c75a1943392c0a0
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
