@@ -9,6 +9,7 @@ THUMB_SIZE = (70, 70)
 class Category(models.Model):
     name = models.CharField(max_length=32, db_index=True)
     slug = models.SlugField(max_length=32, unique=True)
+    image = models.ImageField(upload_to='category/%Y/%d', help_text="Please make sure the image size should be 400 * 200")
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -98,4 +99,4 @@ class Rating(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.post_id
+        return str(self.post_id)
