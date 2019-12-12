@@ -17,7 +17,22 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
-    
+
+Rating_CHOICES = (
+    (1, 'Poor'),
+    (2, 'Average'),
+    (3, 'Good'),
+    (4, 'Very Good'),
+    (5, 'Excellent')
+)
+
+class Rating(models.Model):
+    post_id = models.ForeignKey(Wallpaper, on_delete=models.CASCADE)
+    ip = models.GenericIPAddressField()
+    rate = models.IntegerField(choices=Rating_CHOICES, default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=32, db_index=True)
@@ -33,8 +48,12 @@ class Wallpaper(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, help_text='Wallpaper Categories')
     image = models.ImageField(upload_to='wallpaper')
     thumbnail = models.ImageField(upload_to='thumbs', editable=False)
+    tags = models.ManyToManyField(Tag)
+    total_rate = models.ForeignKey(Rating, on_delete=models.CASCADE)
 
-
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         """
