@@ -26,12 +26,14 @@ class Tag(models.Model):
     slug = models.SlugField(max_length=32, unique=True)
 
     def get_absolute_url(self):
-        return f"/tag/{self.name}"
+        return f"/tag/{self.slug}"
     
     def __str__(self):
         return self.name
 
 class Wallpaper(models.Model):
+    name = models.CharField(max_length=50, db_index=True)
+    slug = models.SlugField(max_length=50, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, help_text='Wallpaper Categories')
     image = models.ImageField(upload_to='wallpapers/%Y/%d')
     thumbnail = models.ImageField(upload_to='thumbs/%Y/%d', editable=False)
@@ -44,7 +46,11 @@ class Wallpaper(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.pk)   
+        return self.name
+
+    def get_absolute_url(self):
+        return f"/wallpaper/{self.slug}"
+       
 
     def save(self, *args, **kwargs):
     

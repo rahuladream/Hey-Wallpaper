@@ -39,5 +39,6 @@ class WallpaperAdmin(admin.ModelAdmin):
                 )
         )
     readonly_fields = ['wallpaper', 'thumbnail']
-    list_display = ['category', 'total_views', 'total_download', 'is_active']
+    list_display = ['name','category', 'total_views', 'total_download', 'is_active']
+    prepopulated_fields ={'slug': ('name',)}
 admin.site.register(Wallpaper, WallpaperAdmin)
