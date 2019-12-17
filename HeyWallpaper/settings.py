@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+WEB_URL = 'http://127.0.0.1:8000'
 
 # Application definition
 
@@ -89,6 +90,8 @@ DATABASES = {
 # SampleToken Token e151c5924e198c0644e1e0d47c75a1943392c0a0
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',  # <-- And here
     ],
