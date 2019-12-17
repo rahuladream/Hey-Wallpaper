@@ -189,3 +189,24 @@ class CategoryRetrive(APIView):
             return Response({'HD_WALLPAPER': categorywise_wallpaper_json})
         except Category.DoesNotExist:
             return Response({'HD_WALLPAPER': []})
+
+class SingleWallpaper(APIView):
+    """
+    Wallpaper List by CategoryID
+    """
+    def get(self, request, format=None):
+        try:
+            wallpaper = Wallpaper.objects.get(id=request.GET.get('wallpaper_id'))            
+            single_wallpaper_value = {
+                'id': wallpaper.id,
+                'cat_id': wallpaper.category.id,
+                'wallpaper_image': settings.WEB_URL + wallpaper.image.url,
+                'wallpaper_image_thumb': settings.WEB_URL + wallpaper.thumbnail.url,
+                'total_views': wallpaper.total_views,
+                'total_rate': wallpaper.rate_avg,
+                'wall_tags': [tag.slug for tag in wallpaper.tags.all()],
+                'total_download': wallpaper.total_download
+            }        
+            return Response({'HD_WALLPAPER': [single_wallpaper_value] })
+        except Wallpaper.DoesNotExist:
+            return Response({'HD_WALLPAPER': []})
